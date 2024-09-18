@@ -1,20 +1,13 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
-    "production": [
-      "default"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": ["default"],
     "sharedGlobals": [
       "{workspaceRoot}/go.work",
       "{workspaceRoot}/.circleci/config.yml"
     ]
   },
   "nxCloudId": "66eb039781a77765a744e957",
-  "plugins": [
-    "@nx-go/nx-go"
-  ]
+  "plugins": ["@nx-go/nx-go", "@nx/workspace"]
 }
