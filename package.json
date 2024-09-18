@@ -1,0 +1,14 @@
+{
+  "name": "@go-cars-workspace/source",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "dependencies": {
+    "@nx-go/nx-go": "3.2.0"
+  },
+  "devDependencies": {
+    "@nx/workspace": "19.7.4",
+    "nx": "19.7.4"
+  }
+}
