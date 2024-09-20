@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start:api": "nx serve api",
-    "build:api": "nx build api"
+    "build:api": "nx build api",
+    "watch:api": "air -c tools/.api.air.toml"
   },
   "private": true,
   "dependencies": {
