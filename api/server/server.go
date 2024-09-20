@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"libs/database"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -19,10 +20,11 @@ func New() *FiberServer {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	appName := os.Getenv("API_APP_NAME")
 	server := &FiberServer{
 		App: fiber.New(fiber.Config{
-			ServerHeader: "go-cars",
-			AppName:      "go-cars",
+			ServerHeader: appName,
+			AppName:      appName,
 		}),
 		client: client,
 	}
