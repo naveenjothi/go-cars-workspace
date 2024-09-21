@@ -5,6 +5,7 @@ go 1.22
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/joho/godotenv v1.5.1
+	libs v0.0.0
 	go.mongodb.org/mongo-driver v1.16.1
 )
 
@@ -30,3 +31,5 @@ require (
 	golang.org/x/sys v0.24.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 )
+
+replace libs => ../libs

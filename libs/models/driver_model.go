@@ -17,3 +17,9 @@ type DriverModel struct {
 	Availability        bool    `json:"availability" bson:"availability"`
 	*base.BaseModel     `bson:",inline"`
 }
+
+func NewDriverModel() *DriverModel {
+	return &DriverModel{
+		BaseModel: &base.BaseModel{},
+	}
+}

@@ -22,7 +22,7 @@ func NewUserService(collection *mongo.Collection) *UserService {
 }
 
 func (s *UserService) CreateUser(ctx *fiber.Ctx) error {
-	dto := new(models.UserModel)
+	dto := models.NewUserModel()
 	if err := utils.GetBodyPayload(ctx, dto); err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func (s *UserService) CreateUser(ctx *fiber.Ctx) error {
 
 func (s *UserService) FindOneUserByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-	user := new(models.UserModel)
+	user := models.NewUserModel()
 	resp, err := s.repository.FindById(id)
 	if err != nil {
 		return utils.HandleMongoError(ctx, err, id)
@@ -54,11 +54,11 @@ func (s *UserService) FindOneUserByID(ctx *fiber.Ctx) error {
 
 func (s *UserService) UpdateUser(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-	dto := new(models.UserModel)
+	dto := models.NewUserModel()
 	if err := utils.GetBodyPayload(ctx, dto); err != nil {
 		return err
 	}
-	exists := new(models.UserModel)
+	exists := models.NewUserModel()
 	resp, err := s.repository.FindById(id)
 	if err != nil {
 		return utils.HandleMongoError(ctx, err, id)

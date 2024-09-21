@@ -15,3 +15,9 @@ type OwnerModel struct {
 	CarListings      []string `json:"carListings" bson:"carListings"`
 	*base.BaseModel  `bson:",inline"`
 }
+
+func NewOwnerModel() *OwnerModel {
+	return &OwnerModel{
+		BaseModel: &base.BaseModel{},
+	}
+}

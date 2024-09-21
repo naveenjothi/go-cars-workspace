@@ -22,3 +22,9 @@ type UserModel struct {
 	IsKYCVerified    bool    `json:"isKYCVerified" bson:"isKYCVerified"`
 	*base.BaseModel  `bson:",inline"`
 }
+
+func NewUserModel() *UserModel {
+	return &UserModel{
+		BaseModel: &base.BaseModel{},
+	}
+}
