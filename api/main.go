@@ -1,22 +1,15 @@
 package main
 
 import (
-	"api/server"
-	"fmt"
-	"os"
-	"strconv"
+	"api/routes"
+	app "libs"
+	"libs/utils"
 
 	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
-
-	server := server.New()
-
-	server.RegisterFiberRoutes()
-	port, _ := strconv.Atoi(os.Getenv("API_PORT"))
-	err := server.Listen(fmt.Sprintf(":%d", port))
-	if err != nil {
-		panic(fmt.Sprintf("cannot start server: %s", err))
-	}
+	app.Listen("API", func(server *utils.FiberServer) {
+		routes.RegisterFiberRoutes(server)
+	})
 }

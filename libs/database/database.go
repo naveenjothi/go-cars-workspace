@@ -12,8 +12,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InitializeMongoClient() (*mongo.Client, error) {
-	clientOptions := options.Client().ApplyURI(os.Getenv("MONGODB_URI"))
+func InitializeMongoClient(prefix string) (*mongo.Client, error) {
+	dbURI := os.Getenv(fmt.Sprintf("%s_APP_URI", prefix))
+	clientOptions := options.Client().ApplyURI(dbURI)
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to MongoDB: %v", err)
