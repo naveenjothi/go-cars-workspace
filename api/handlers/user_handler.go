@@ -8,8 +8,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+var user_collection_name = "users"
+
 func CreateUserHandler(ctx *fiber.Ctx, client *mongo.Client) error {
-	collection := database.GetUserCollection(client)
+	collection := database.GetCollection(client, user_collection_name)
 
 	userService := services.NewUserService(collection)
 
@@ -17,7 +19,7 @@ func CreateUserHandler(ctx *fiber.Ctx, client *mongo.Client) error {
 }
 
 func GetUserHandler(ctx *fiber.Ctx, client *mongo.Client) error {
-	collection := database.GetUserCollection(client)
+	collection := database.GetCollection(client, user_collection_name)
 
 	userService := services.NewUserService(collection)
 
@@ -25,7 +27,7 @@ func GetUserHandler(ctx *fiber.Ctx, client *mongo.Client) error {
 }
 
 func UpdateUserHandler(ctx *fiber.Ctx, client *mongo.Client) error {
-	collection := database.GetUserCollection(client)
+	collection := database.GetCollection(client, user_collection_name)
 
 	userService := services.NewUserService(collection)
 
