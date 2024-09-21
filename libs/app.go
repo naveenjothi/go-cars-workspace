@@ -25,7 +25,8 @@ func Listen(prefix string, beforeAppListen func(server *utils.FiberServer)) {
 	// Call the provided handler function before starting the server
 	beforeAppListen(server)
 
-	// Start listening on the specified port
+	// Start listening on the specified
+	log.Printf("Starting %s on port %s", appName, appPort)
 	if err := server.Listen(fmt.Sprintf(":%d", port)); err != nil {
 		log.Fatalf("Unable to start the %s: %s", appName, err)
 	}
