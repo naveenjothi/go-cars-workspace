@@ -4,19 +4,21 @@ import (
 	"log"
 	"migration/migrations"
 	"migration/services"
+
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Migration struct {
 	migrationID string
 	description string
-	Up          func() error
+	Up          func(client *mongo.Client) error
 }
 
 var all_migrations = []Migration{
 	{
 		migrationID: "20240921",
 		description: "20240921",
-		Up:          migrations.MigrateUsers,
+		Up:          migrations.MigrateCars,
 	},
 }
 

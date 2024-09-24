@@ -13,6 +13,7 @@ import (
 
 type MigrationService struct {
 	repository *repos.MigrationRepo
+	client     *mongo.Client
 }
 
 func NewMigrationService() *MigrationService {
@@ -24,16 +25,17 @@ func NewMigrationService() *MigrationService {
 	collection := database.GetCollection(client, migration_collection_name)
 	return &MigrationService{
 		repository: repos.NewMigrationRepo(collection),
+		client:     client,
 	}
 }
 
-func (s *MigrationService) Up(migrationID, description string, cb func() error) {
+func (s *MigrationService) Up(migrationID, description string, cb func(client *mongo.Client) error) {
 	var result bson.M
 	err := s.repository.FindOne(bson.M{"version": migrationID}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
 		// Apply migration logic here
 		fmt.Println("Applying migration", migrationID)
-		if cbErr := cb(); cbErr != nil {
+		if cbErr := cb(s.client); cbErr != nil {
 			log.Fatal(cbErr)
 		}
 		_, err := s.repository.InsertOne(bson.M{

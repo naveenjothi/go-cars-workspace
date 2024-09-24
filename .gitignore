@@ -5,6 +5,7 @@ dist
 .env
 tmp
 /out-tsc
+datasets
 
 # dependencies
 node_modules
