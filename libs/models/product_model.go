@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type CarModel struct {
+type ProductModel struct {
 	Make                string    `json:"make" bson:"make"`
 	Model               string    `json:"model" bson:"model"`
 	Year                int       `json:"year" bson:"year"`
@@ -29,4 +29,10 @@ type CarModel struct {
 	RentalConditions    string    `json:"rentalConditions,omitempty" bson:"rentalConditions,omitempty"`
 	Images              []string  `json:"images" bson:"images"`
 	*base.BaseModel     `bson:",inline"`
+}
+
+func NewProductModel() *ProductModel {
+	return &ProductModel{
+		BaseModel: &base.BaseModel{},
+	}
 }
