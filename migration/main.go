@@ -16,8 +16,8 @@ type Migration struct {
 
 var all_migrations = []Migration{
 	{
-		migrationID: "20240921",
-		description: "20240921",
+		migrationID: "20241921",
+		description: "Cars Data migration",
 		Up:          migrations.MigrateCars,
 	},
 }

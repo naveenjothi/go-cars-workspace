@@ -15,6 +15,10 @@ type BaseModel struct {
 	DeletedAt *time.Time         `json:"deletedAt,omitempty" bson:"deletedAt,omitempty"`
 }
 
+func NewBaseModel() *BaseModel {
+	return &BaseModel{}
+}
+
 func (bm *BaseModel) InitiliseDefaultValue() {
 	now := time.Now().UTC()
 	bm.IsDeleted = false

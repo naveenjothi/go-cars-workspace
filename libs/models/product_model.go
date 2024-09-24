@@ -33,6 +33,6 @@ type ProductModel struct {
 
 func NewProductModel() *ProductModel {
 	return &ProductModel{
-		BaseModel: &base.BaseModel{},
+		BaseModel: base.NewBaseModel(),
 	}
 }

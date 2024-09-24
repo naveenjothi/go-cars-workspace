@@ -18,6 +18,6 @@ type OwnerModel struct {
 
 func NewOwnerModel() *OwnerModel {
 	return &OwnerModel{
-		BaseModel: &base.BaseModel{},
+		BaseModel: base.NewBaseModel(),
 	}
 }

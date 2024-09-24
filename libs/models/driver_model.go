@@ -20,6 +20,6 @@ type DriverModel struct {
 
 func NewDriverModel() *DriverModel {
 	return &DriverModel{
-		BaseModel: &base.BaseModel{},
+		BaseModel: base.NewBaseModel(),
 	}
 }

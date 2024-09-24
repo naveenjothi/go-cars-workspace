@@ -25,6 +25,6 @@ type UserModel struct {
 
 func NewUserModel() *UserModel {
 	return &UserModel{
-		BaseModel: &base.BaseModel{},
+		BaseModel: base.NewBaseModel(),
 	}
 }
