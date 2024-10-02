@@ -19,8 +19,6 @@ func NewRepository(collection *mongo.Collection) *Repository {
 }
 
 func (r *Repository) FindById(id string) (*mongo.SingleResult, error) {
-	log.Printf("Finding %s in the collection", id)
-
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		log.Printf("Invalid ID format: %v", err)

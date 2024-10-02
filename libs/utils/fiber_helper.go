@@ -2,8 +2,10 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"libs/database"
 	"log"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -42,6 +44,9 @@ func NewFiberServer(prefix, appName string) *FiberServer {
 // WithClient returns a Fiber handler that provides the MongoDB client to the handler.
 func (s *FiberServer) WithClient(handler func(*fiber.Ctx, *mongo.Client) error) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		defer func(start time.Time) {
+			fmt.Printf("%s %s took=%v", c.Method(), c.Path(), time.Since(start))
+		}(time.Now())
 		return handler(c, s.client)
 	}
 }
