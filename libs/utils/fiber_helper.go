@@ -45,7 +45,7 @@ func NewFiberServer(prefix, appName string) *FiberServer {
 func (s *FiberServer) WithClient(handler func(*fiber.Ctx, *mongo.Client) error) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		defer func(start time.Time) {
-			fmt.Printf("%s %s took=%v", c.Method(), c.Path(), time.Since(start))
+			fmt.Printf("%s %s took=%v\n", c.Route().Method, c.Path(), time.Since(start))
 		}(time.Now())
 		return handler(c, s.client)
 	}
