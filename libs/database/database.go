@@ -34,7 +34,6 @@ func getCollection(client *mongo.Client, dbName, collectionName string) *mongo.C
 	return client.Database(dbName).Collection(collectionName)
 }
 
-func GetCollection(client *mongo.Client, collName string) *mongo.Collection {
-	dbName := os.Getenv("DB_NAME")
+func GetCollection(client *mongo.Client, dbName, collName string) *mongo.Collection {
 	return getCollection(client, dbName, collName)
 }
