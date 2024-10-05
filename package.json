@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start:api": "nx serve api",
+    "start:infra": "nx serve infra",
     "start:migration": "nx serve migration",
     "build:api": "nx build api",
     "build:libs": "nx build libs",

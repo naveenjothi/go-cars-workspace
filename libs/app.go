@@ -16,12 +16,7 @@ func Listen(prefix string, beforeAppListen func(app *fiber.App)) {
 	appPort := os.Getenv(fmt.Sprintf("%s_APP_PORT", prefix))
 
 	// Create a new Fiber server instance
-	clients := utils.LoadClients()
 	app := utils.NewFiberServer(prefix, appName)
-	app.Use(func(c *fiber.Ctx) error {
-		c.Locals("clients", clients)
-		return c.Next()
-	})
 
 	// Convert port to integer and handle error
 	port, err := strconv.Atoi(appPort)
@@ -34,12 +29,8 @@ func Listen(prefix string, beforeAppListen func(app *fiber.App)) {
 
 	// Start listening on the specified
 	log.Printf("Starting %s on port %s", appName, appPort)
-	go func() {
-		if err := app.Listen(fmt.Sprintf(":%d", port)); err != nil {
-			log.Fatalf("Error starting Fiber server: %v", err)
-		}
-	}()
 
-	// Call graceful shutdown when SIGINT or SIGTERM is received
-	utils.GracefulShutdown(app, clients)
+	if err := app.Listen(fmt.Sprintf(":%d", port)); err != nil {
+		log.Fatalf("Error starting Fiber server: %v", err)
+	}
 }

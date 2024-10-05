@@ -1,7 +1,7 @@
 package main
 
 import (
-	"api/routes"
+	"infra/routes"
 	"libs/database"
 	"log"
 
@@ -10,9 +10,11 @@ import (
 	app "libs"
 )
 
+var DB_NAME = "locations"
+
 func main() {
-	app.Listen("API", func(app *fiber.App) {
-		dbClient, err := database.InitializeMongoClient("API")
+	app.Listen("INFRA", func(app *fiber.App) {
+		dbClient, err := database.InitializeMongoClient("INFRA")
 		if err != nil {
 			log.Fatalf("Failed to initialize MongoDB client: %s", err)
 		}

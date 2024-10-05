@@ -2,18 +2,18 @@ package handlers
 
 import (
 	"api/services"
+	"libs/constants"
 	"libs/database"
-	"libs/utils"
 
 	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var user_collection_name = "users"
 
 func CreateUserHandler(ctx *fiber.Ctx) error {
-	cl := ctx.Locals("clients").(*utils.Clients)
-	apiClient := cl.DBClients["api"].Client
-	collection := database.GetCollection(apiClient, user_collection_name)
+	dbClient := ctx.Locals("clients").(*mongo.Client)
+	collection := database.GetCollection(dbClient, constants.API_DB_NAME, user_collection_name)
 
 	userService := services.NewUserService(collection)
 
@@ -21,9 +21,8 @@ func CreateUserHandler(ctx *fiber.Ctx) error {
 }
 
 func GetUserHandler(ctx *fiber.Ctx) error {
-	cl := ctx.Locals("clients").(*utils.Clients)
-	apiClient := cl.DBClients["api"].Client
-	collection := database.GetCollection(apiClient, user_collection_name)
+	dbClient := ctx.Locals("clients").(*mongo.Client)
+	collection := database.GetCollection(dbClient, constants.API_DB_NAME, user_collection_name)
 
 	userService := services.NewUserService(collection)
 
@@ -31,9 +30,8 @@ func GetUserHandler(ctx *fiber.Ctx) error {
 }
 
 func UpdateUserHandler(ctx *fiber.Ctx) error {
-	cl := ctx.Locals("clients").(*utils.Clients)
-	apiClient := cl.DBClients["api"].Client
-	collection := database.GetCollection(apiClient, user_collection_name)
+	dbClient := ctx.Locals("clients").(*mongo.Client)
+	collection := database.GetCollection(dbClient, constants.API_DB_NAME, user_collection_name)
 
 	userService := services.NewUserService(collection)
 
