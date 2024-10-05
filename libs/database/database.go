@@ -26,7 +26,7 @@ func InitializeMongoClient(prefix string) (*mongo.Client, error) {
 		return nil, fmt.Errorf("failed to ping MongoDB: %v", err)
 	}
 
-	log.Println("Successfully connected to MongoDB")
+	log.Printf("Successfully connected to %s MongoDB", prefix)
 	return client, nil
 }
 

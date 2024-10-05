@@ -2,14 +2,14 @@ package main
 
 import (
 	"api/routes"
-	app "libs"
-	"libs/utils"
 
-	_ "github.com/joho/godotenv/autoload"
+	"github.com/gofiber/fiber/v2"
+
+	app "libs"
 )
 
 func main() {
-	app.Listen("API", func(server *utils.FiberServer) {
-		routes.RegisterFiberRoutes(server)
+	app.Listen("API", func(app *fiber.App) {
+		routes.RegisterFiberRoutes(app)
 	})
 }
