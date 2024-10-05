@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"libs/base"
+	"libs/constants"
 	"libs/database"
 	"libs/models"
 	"log"
@@ -28,7 +29,7 @@ func MigrateCars(client *mongo.Client) error {
 		log.Fatalf("Failed to open file: %s", err)
 	}
 	defer file.Close()
-	collection := database.GetCollection(client, cars_collection_name)
+	collection := database.GetCollection(client, constants.API_DB_NAME, cars_collection_name)
 
 	car_service := services.NewCarService(collection)
 

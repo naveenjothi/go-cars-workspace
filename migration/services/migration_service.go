@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"libs/constants"
 	"libs/database"
 	"log"
 	"migration/repos"
@@ -22,7 +23,7 @@ func NewMigrationService() *MigrationService {
 	if err != nil {
 		log.Fatalf("Failed to initialize MongoDB client: %s", err)
 	}
-	collection := database.GetCollection(client, migration_collection_name)
+	collection := database.GetCollection(client, constants.API_DB_NAME, migration_collection_name)
 	return &MigrationService{
 		repository: repos.NewMigrationRepo(collection),
 		client:     client,
