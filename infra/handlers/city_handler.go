@@ -19,3 +19,10 @@ func GetCityHandler(ctx *fiber.Ctx) error {
 
 	return cityService.FindOneCityByID(ctx)
 }
+
+func SearchCities(ctx *fiber.Ctx) error {
+	dbClient := ctx.Locals("dbClient").(*mongo.Client)
+	collection := database.GetCollection(dbClient, constants.LOCATIONS_DB_NAME, city_collection_name)
+	cityService := services.NewCityService(collection)
+	return cityService.SearchCities(ctx)
+}

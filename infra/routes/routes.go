@@ -9,4 +9,5 @@ import (
 func RegisterFiberRoutes(app *fiber.App) {
 	app.Get("/city/:id", handlers.GetCityHandler)
 	app.Get("/country/:id", handlers.GetCountryHandler)
+	app.Post("/search/city", handlers.SearchCities)
 }

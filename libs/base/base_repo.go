@@ -2,6 +2,8 @@ package base
 
 import (
 	"context"
+	"fmt"
+	"libs/utils"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -75,4 +77,49 @@ func (r *Repository) UpdateOne(id string, document interface{}) (*interface{}, e
 
 func (r *Repository) DeleteOne(filter interface{}) (*mongo.DeleteResult, error) {
 	return r.collection.DeleteOne(context.Background(), filter)
+}
+
+func (r *Repository) AtlasSearch(filter bson.D, page, pageSize int) (*BaseDto, error) {
+	skip := int64(page * pageSize)
+	limit := int64(pageSize)
+
+	cursor, err := r.collection.Find(context.TODO(), filter, options.Find().SetSkip(skip).SetLimit(limit))
+	if err != nil {
+		return nil, fmt.Errorf("error finding documents: %v", err)
+	}
+	defer cursor.Close(context.TODO())
+
+	var items []bson.D
+	if err = cursor.All(context.TODO(), &items); err != nil {
+		return nil, fmt.Errorf("error retrieving documents: %v", err)
+	}
+
+	matchStage := bson.D{{Key: "$match", Value: filter}}
+	countCursor, err := r.collection.Aggregate(context.TODO(), mongo.Pipeline{
+		matchStage,
+		utils.CountStage,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("error aggregating documents: %v", err)
+	}
+	defer countCursor.Close(context.TODO())
+
+	var countResult []bson.M
+	if err = countCursor.All(context.TODO(), &countResult); err != nil {
+		return nil, fmt.Errorf("error retrieving count: %v", err)
+	}
+
+	var count int32
+	if len(countResult) > 0 {
+		if totalDocs, ok := countResult[0]["total_documents"].(int32); ok {
+			count = totalDocs
+		} else {
+			return nil, fmt.Errorf("error asserting total_documents field")
+		}
+	}
+
+	return &BaseDto{
+		Items: items,
+		Count: count,
+	}, nil
 }
