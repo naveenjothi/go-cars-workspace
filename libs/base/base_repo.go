@@ -79,7 +79,7 @@ func (r *Repository) DeleteOne(filter interface{}) (*mongo.DeleteResult, error) 
 	return r.collection.DeleteOne(context.Background(), filter)
 }
 
-func (r *Repository) AtlasSearch(filter bson.D, page, pageSize int) (*BaseDto, error) {
+func AtlasSearch[T any](r *Repository, filter bson.D, page, pageSize int) (*BaseDto[T], error) {
 	skip := int64(page * pageSize)
 	limit := int64(pageSize)
 
@@ -89,7 +89,7 @@ func (r *Repository) AtlasSearch(filter bson.D, page, pageSize int) (*BaseDto, e
 	}
 	defer cursor.Close(context.TODO())
 
-	var items []bson.D
+	var items []T
 	if err = cursor.All(context.TODO(), &items); err != nil {
 		return nil, fmt.Errorf("error retrieving documents: %v", err)
 	}
@@ -118,7 +118,7 @@ func (r *Repository) AtlasSearch(filter bson.D, page, pageSize int) (*BaseDto, e
 		}
 	}
 
-	return &BaseDto{
+	return &BaseDto[T]{
 		Items: items,
 		Count: count,
 	}, nil

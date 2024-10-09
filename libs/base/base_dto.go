@@ -1,8 +1,6 @@
 package base
 
-import "go.mongodb.org/mongo-driver/bson"
-
-type BaseDto struct {
-	Count int32    `json:"count"`
-	Items []bson.D `json:"items"`
+type BaseDto[T any] struct {
+	Items []T   `json:"items"`
+	Count int32 `json:"count"`
 }
