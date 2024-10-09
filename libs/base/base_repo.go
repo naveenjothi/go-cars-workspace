@@ -12,15 +12,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Repository struct {
+type Repository[T any] struct {
 	collection *mongo.Collection
 }
 
-func NewRepository(collection *mongo.Collection) *Repository {
-	return &Repository{collection}
+func NewRepository[T any](collection *mongo.Collection) *Repository[T] {
+	return &Repository[T]{collection}
 }
 
-func (r *Repository) FindById(id string) (*mongo.SingleResult, error) {
+func (r *Repository[T]) FindById(id string) (*mongo.SingleResult, error) {
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		log.Printf("Invalid ID format: %v", err)
@@ -34,15 +34,15 @@ func (r *Repository) FindById(id string) (*mongo.SingleResult, error) {
 	return result, nil
 }
 
-func (r *Repository) FindOne(filter interface{}) *mongo.SingleResult {
+func (r *Repository[T]) FindOne(filter interface{}) *mongo.SingleResult {
 	return r.collection.FindOne(context.Background(), filter)
 }
 
-func (r *Repository) InsertOne(document interface{}) (*mongo.InsertOneResult, error) {
+func (r *Repository[T]) InsertOne(document interface{}) (*mongo.InsertOneResult, error) {
 	return r.collection.InsertOne(context.Background(), document)
 }
 
-func (r *Repository) UpdateOne(id string, document interface{}) (*interface{}, error) {
+func (r *Repository[T]) UpdateOne(id string, document interface{}) (*interface{}, error) {
 	// Convert the ID string to ObjectID
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -75,11 +75,11 @@ func (r *Repository) UpdateOne(id string, document interface{}) (*interface{}, e
 	return result, nil
 }
 
-func (r *Repository) DeleteOne(filter interface{}) (*mongo.DeleteResult, error) {
+func (r *Repository[T]) DeleteOne(filter interface{}) (*mongo.DeleteResult, error) {
 	return r.collection.DeleteOne(context.Background(), filter)
 }
 
-func AtlasSearch[T any](r *Repository, filter bson.D, page, pageSize int) (*BaseDto[T], error) {
+func (r *Repository[T]) AtlasSearch(filter bson.D, page, pageSize int) (*BaseDto[T], error) {
 	skip := int64(page * pageSize)
 	limit := int64(pageSize)
 

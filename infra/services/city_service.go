@@ -3,7 +3,6 @@ package services
 import (
 	"infra/models"
 	"infra/repos"
-	"libs/base"
 	"libs/utils"
 
 	"github.com/gofiber/fiber/v2"
@@ -41,7 +40,7 @@ func (s *CityService) SearchCities(ctx *fiber.Ctx) error {
 		return err
 	}
 	filter := bson.D{}
-	resp, err := base.AtlasSearch[models.CityModel](s.repository.Repository, filter, int(dto.Paging.Offset), int(dto.Paging.Limit))
+	resp, err := s.repository.AtlasSearch(filter, int(dto.Paging.Offset), int(dto.Paging.Limit))
 	if err != nil {
 		return utils.HandleMongoError(ctx, err, "")
 	}
