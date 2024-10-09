@@ -22,16 +22,11 @@ func NewCityService(collection *mongo.Collection) *CityService {
 
 func (s *CityService) FindOneCityByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-	user := models.NewCityModel()
 	resp, err := s.repository.FindById(id)
 	if err != nil {
 		return utils.HandleMongoError(ctx, err, id)
 	}
-
-	if err := resp.Decode(user); err != nil {
-		return utils.HandleMongoError(ctx, err, id)
-	}
-	return ctx.Status(fiber.StatusOK).JSON(user)
+	return ctx.Status(fiber.StatusOK).JSON(resp)
 }
 
 func (s *CityService) SearchCities(ctx *fiber.Ctx) error {

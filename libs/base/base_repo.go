@@ -20,7 +20,7 @@ func NewRepository[T any](collection *mongo.Collection) *Repository[T] {
 	return &Repository[T]{collection}
 }
 
-func (r *Repository[T]) FindById(id string) (*mongo.SingleResult, error) {
+func (r *Repository[T]) FindById(id string) (*T, error) {
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		log.Printf("Invalid ID format: %v", err)
@@ -31,7 +31,13 @@ func (r *Repository[T]) FindById(id string) (*mongo.SingleResult, error) {
 
 	result := r.collection.FindOne(context.Background(), filter)
 
-	return result, nil
+	var res *T
+
+	if err := result.Decode(&res); err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 func (r *Repository[T]) FindOne(filter interface{}) *mongo.SingleResult {
