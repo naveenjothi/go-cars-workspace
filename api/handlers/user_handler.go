@@ -12,7 +12,7 @@ import (
 var user_collection_name = "users"
 
 func CreateUserHandler(ctx *fiber.Ctx) error {
-	dbClient := ctx.Locals("clients").(*mongo.Client)
+	dbClient := ctx.Locals("dbClient").(*mongo.Client)
 	collection := database.GetCollection(dbClient, constants.API_DB_NAME, user_collection_name)
 
 	userService := services.NewUserService(collection)
@@ -21,7 +21,7 @@ func CreateUserHandler(ctx *fiber.Ctx) error {
 }
 
 func GetUserHandler(ctx *fiber.Ctx) error {
-	dbClient := ctx.Locals("clients").(*mongo.Client)
+	dbClient := ctx.Locals("dbClient").(*mongo.Client)
 	collection := database.GetCollection(dbClient, constants.API_DB_NAME, user_collection_name)
 
 	userService := services.NewUserService(collection)
@@ -30,7 +30,7 @@ func GetUserHandler(ctx *fiber.Ctx) error {
 }
 
 func UpdateUserHandler(ctx *fiber.Ctx) error {
-	dbClient := ctx.Locals("clients").(*mongo.Client)
+	dbClient := ctx.Locals("dbClient").(*mongo.Client)
 	collection := database.GetCollection(dbClient, constants.API_DB_NAME, user_collection_name)
 
 	userService := services.NewUserService(collection)
