@@ -48,7 +48,7 @@ func (r *Repository[T]) InsertOne(document interface{}) (*mongo.InsertOneResult,
 	return r.collection.InsertOne(context.Background(), document)
 }
 
-func (r *Repository[T]) UpdateOne(id string, document interface{}) (*interface{}, error) {
+func (r *Repository[T]) UpdateOne(id string, document interface{}) (*T, error) {
 	// Convert the ID string to ObjectID
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -63,7 +63,7 @@ func (r *Repository[T]) UpdateOne(id string, document interface{}) (*interface{}
 	update := bson.M{"$set": document}
 
 	// Define the result variable to store the updated document
-	result := new(interface{})
+	var result *T
 
 	// Find the document and apply the update with options to return the updated document
 	err = r.collection.FindOneAndUpdate(
@@ -71,7 +71,7 @@ func (r *Repository[T]) UpdateOne(id string, document interface{}) (*interface{}
 		filter,
 		update,
 		options.FindOneAndUpdate().SetReturnDocument(options.After), // Return the updated document
-	).Decode(result)
+	).Decode(&result)
 
 	if err != nil {
 		log.Printf("Error updating document: %v", err)
